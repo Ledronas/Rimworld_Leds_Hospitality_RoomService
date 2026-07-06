@@ -43,10 +43,13 @@ public static class BuildingBedSolicitationGizmoPatch
             toggleAction = () =>
             {
                 comp.enabled = !comp.enabled;
-                // Building visuals are baked into batched map-mesh sections for performance,
-                // so just changing the color the getter returns doesn't repaint it on its own -
-                // this forces the section to redraw with the new sheet color.
-                __instance.DirtyMapMesh(__instance.Map);
+                // Thing.Graphic is lazily cached in a private field and only rebuilt from
+                // DrawColor/DrawColorTwo once, the first time it's accessed - dirtying the map
+                // mesh alone (what we tried before) just re-prints that same stale cached
+                // Graphic, which is why it only ever looked right after a reload (which recreates
+                // the Thing from scratch). Notify_ColorChanged() is vanilla's own method for
+                // exactly this - it invalidates the cached Graphic and dirties the mesh.
+                __instance.Notify_ColorChanged();
             }
         };
     }

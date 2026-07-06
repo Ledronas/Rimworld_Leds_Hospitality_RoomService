@@ -222,6 +222,17 @@ public static class RoomServiceUtility
     {
         if (grantedTempRelation) RemoveTempLoverRelation(pawn, guest);
 
+        // Vanilla treats the (temporary) Lover relation as a real pairing and auto-assigns bed
+        // ownership to partners who share a bed. That leaves the guest "owning" the colonist's
+        // bed afterward, which our own bed-quality checks then treat as a second owner - making
+        // the bed ineligible for anyone else and effectively locking the colonist into only ever
+        // being able to solicit that one guest again. This is a one-off transaction, not a
+        // move-in, so undo the claim immediately.
+        if (guest.ownership?.OwnedBed == bed)
+        {
+            guest.ownership.UnclaimBed();
+        }
+
         if (condition != JobCondition.Succeeded) return; // interrupted/errored partway - no payment, no thoughts
 
         var room = RegionAndRoomQuery.GetRoom(bed, RegionType.Set_Passable);
