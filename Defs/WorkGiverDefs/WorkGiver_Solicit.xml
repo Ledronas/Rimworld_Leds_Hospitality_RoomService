@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>RoomService_Solicit</defName>
+    <label>invite guests to bed</label>
+    <giverClass>HospitalityRoomService.WorkGiver_Solicit</giverClass>
+    <workType>RoomService_Companionship</workType>
+    <verb>invite</verb>
+    <gerund>inviting a guest</gerund>
+    <requiredCapacities>
+      <li>Talking</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

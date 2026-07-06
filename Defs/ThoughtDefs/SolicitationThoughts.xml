@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThoughtDef>
+    <defName>RoomService_Accepted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <showBubble>true</showBubble>
+    <durationDays>2.5</durationDays>
+    <stackedEffectMultiplier>0.98</stackedEffectMultiplier>
+    <stackLimit>10</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>enjoyed the company</label>
+        <labelSocial>gave me a good time</labelSocial>
+        <description>That colonist made my stay a lot more memorable.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+        <baseOpinionOffset>6</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_Declined</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackedEffectMultiplier>0.98</stackedEffectMultiplier>
+    <stackLimit>5</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>propositioned awkwardly</label>
+        <labelSocial>propositioned me awkwardly</labelSocial>
+        <description>That colonist made an uncomfortable pass at me.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+        <baseOpinionOffset>-3</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_GotPaid</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>extra income</label>
+        <description>Entertaining a guest paid off.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Mood tied 1:1 to RoomService_Experience's hediff stages - grows more positive the more
+       a free colonist does this work. Slaves never gain this hediff, so they never see it. -->
+  <ThoughtDef>
+    <defName>RoomService_ExperienceThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>RoomService_Experience</hediff>
+    <stages>
+      <li>
+        <label>reluctant about companionship</label>
+        <description>I'm still not sure how I feel about this whole "companionship" arrangement.</description>
+        <baseMoodEffect>-1</baseMoodEffect>
+      </li>
+      <li>
+        <label>adjusting to companionship</label>
+        <description>I'm getting more used to entertaining guests.</description>
+        <baseMoodEffect>0</baseMoodEffect>
+      </li>
+      <li>
+        <label>comfortable with companionship</label>
+        <description>Entertaining guests has become a comfortable routine.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+      <li>
+        <label>enthusiastic about companionship</label>
+        <description>I've come to really enjoy entertaining guests.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_DislikesIt</defName>
+    <durationDays>1.5</durationDays>
+    <stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>hated this</label>
+        <description>Entertaining a guest like that really wasn't for me.</description>
+        <baseMoodEffect>-6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_LovesIt</defName>
+    <durationDays>1.5</durationDays>
+    <stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>loved this</label>
+        <description>Entertaining a guest like that was exactly my thing.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_ForcedCompanionship</defName>
+    <durationDays>3</durationDays>
+    <stackedEffectMultiplier>0.95</stackedEffectMultiplier>
+    <stackLimit>20</stackLimit>
+    <stages>
+      <li>
+        <label>forced into this</label>
+        <description>I had no say in being sent to entertain a guest like that.</description>
+        <baseMoodEffect>-8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <RoomService_Settings_MedicalSection>Guest medical treatment</RoomService_Settings_MedicalSection>
+  <RoomService_Settings_AllowGuestMedicalBeds>Allow guest beds to be set as medical</RoomService_Settings_AllowGuestMedicalBeds>
+  <RoomService_Settings_GuestsPayForTreatment>Guests pay for treatment</RoomService_Settings_GuestsPayForTreatment>
+  <RoomService_Settings_MedicalPriceFactor>Medical price factor: {0}</RoomService_Settings_MedicalPriceFactor>
+  <RoomService_Settings_ChargeForBedOccupancy>Charge for time spent holding a bed</RoomService_Settings_ChargeForBedOccupancy>
+  <RoomService_Settings_BedOccupancyRatePerDay>Bed occupancy rate per day: {0}</RoomService_Settings_BedOccupancyRatePerDay>
+  <RoomService_Settings_EnableMedicalGuestEvents>Guests may arrive needing a specific operation</RoomService_Settings_EnableMedicalGuestEvents>
+  <RoomService_Settings_MedicalGuestChance>Chance per arriving guest: {0}</RoomService_Settings_MedicalGuestChance>
+  <RoomService_Settings_SurgeryLaborFee>Surgery labor fee: {0}</RoomService_Settings_SurgeryLaborFee>
+  <RoomService_Settings_PartReimbursementFactor>Part cost reimbursement factor: {0}</RoomService_Settings_PartReimbursementFactor>
+
+  <RoomService_Settings_SolicitationSection>Companionship</RoomService_Settings_SolicitationSection>
+  <RoomService_Settings_EnableSolicitation>Enable companionship service</RoomService_Settings_EnableSolicitation>
+  <RoomService_Settings_BaseChance>Base success chance: {0}</RoomService_Settings_BaseChance>
+  <RoomService_Settings_SocialWeight>Social skill weight: {0}</RoomService_Settings_SocialWeight>
+  <RoomService_Settings_BeautyWeight>Beauty weight: {0}</RoomService_Settings_BeautyWeight>
+  <RoomService_Settings_PriceFactorSolicit>Price factor: {0}</RoomService_Settings_PriceFactorSolicit>
+  <RoomService_Settings_RoomQualityWeight>Room quality weight: {0}</RoomService_Settings_RoomQualityWeight>
+  <RoomService_Settings_BedValueWeight>Bed value weight: {0}</RoomService_Settings_BedValueWeight>
+  <RoomService_Settings_SocialXpPerSession>Social XP per session: {0}</RoomService_Settings_SocialXpPerSession>
+  <RoomService_Settings_RejectionCooldownHours>Rejection cooldown (hours): {0}</RoomService_Settings_RejectionCooldownHours>
+  <RoomService_Settings_AffectsFactionGoodwill>Successful visits improve faction goodwill</RoomService_Settings_AffectsFactionGoodwill>
+  <RoomService_Settings_PersonalityReactions>Personality affects reactions (traits, growing experience, forced-slave reactions)</RoomService_Settings_PersonalityReactions>
+  <RoomService_Settings_SlaveWillReduction>Slave will reduction per session: {0}</RoomService_Settings_SlaveWillReduction>
+
+  <RoomService_ToggleBedLabel>Allow entertaining guests</RoomService_ToggleBedLabel>
+  <RoomService_ToggleBedDesc>A colonist with the Companionship work type enabled may invite a visiting guest here, for a price. Prefers their own bed if it's marked, but any marked bed that isn't someone else's will do - and the nicer the bed and room, the more they can charge.</RoomService_ToggleBedDesc>
+
+  <RoomService_GuestPaidForTreatment>{0} paid {1} silver for medical treatment.</RoomService_GuestPaidForTreatment>
+  <RoomService_BrokeUnwavering>{0}'s unwavering loyalty has broken - they can now be recruited.</RoomService_BrokeUnwavering>
+
+  <RoomService_MedicalGuestOfferTitle>Guest needs treatment</RoomService_MedicalGuestOfferTitle>
+  <RoomService_MedicalGuestOfferText>{0} is missing their {1} and would benefit from having a {2} installed. A colony doctor can perform the operation once one is available in your stockpiles - the bill will simply wait until then. Offer to treat them, for a fee?</RoomService_MedicalGuestOfferText>
+  <RoomService_GuestPaidForSurgery>{0} paid {1} silver for their operation.</RoomService_GuestPaidForSurgery>
+
+  <RoomService_SolicitFloatMenuOption>Invite {0} for companionship</RoomService_SolicitFloatMenuOption>
+
+  <RoomService_Reason_FeatureDisabled>companionship service is disabled in mod settings</RoomService_Reason_FeatureDisabled>
+  <RoomService_Reason_InvalidPawns>invalid pawns</RoomService_Reason_InvalidPawns>
+  <RoomService_Reason_NotColonist>not a colonist</RoomService_Reason_NotColonist>
+  <RoomService_Reason_WorkTagDisabled>Companionship work type not enabled for this pawn</RoomService_Reason_WorkTagDisabled>
+  <RoomService_Reason_InitiatorTooYoung>this pawn is too young</RoomService_Reason_InitiatorTooYoung>
+  <RoomService_Reason_GuestTooYoung>guest is too young</RoomService_Reason_GuestTooYoung>
+  <RoomService_Reason_GuestNotArrived>guest hasn't arrived at the colony yet</RoomService_Reason_GuestNotArrived>
+  <RoomService_Reason_GuestDowned>guest is downed</RoomService_Reason_GuestDowned>
+  <RoomService_Reason_GuestAsleep>guest is asleep</RoomService_Reason_GuestAsleep>
+  <RoomService_Reason_GuestDismissive>guest is in a dismissive mood and doesn't want to talk right now</RoomService_Reason_GuestDismissive>
+  <RoomService_Reason_GuestInTherapy>guest is busy with therapy</RoomService_Reason_GuestInTherapy>
+  <RoomService_Reason_GuestTired>guest is too tired</RoomService_Reason_GuestTired>
+  <RoomService_Reason_GuestEating>guest is eating</RoomService_Reason_GuestEating>
+  <RoomService_Reason_GuestBusy>guest's current activity can't be interrupted</RoomService_Reason_GuestBusy>
+  <RoomService_Reason_OpinionTooLow>guest's opinion of this pawn is too low</RoomService_Reason_OpinionTooLow>
+  <RoomService_Reason_CannotInitiate>this pawn cannot initiate social interaction right now</RoomService_Reason_CannotInitiate>
+  <RoomService_Reason_CannotReceive>guest cannot receive social interaction right now</RoomService_Reason_CannotReceive>
+  <RoomService_Reason_NotAttractedToGuest>this pawn isn't attracted to the guest's gender</RoomService_Reason_NotAttractedToGuest>
+  <RoomService_Reason_GuestNotAttracted>guest isn't attracted to this pawn's gender</RoomService_Reason_GuestNotAttracted>
+  <RoomService_Reason_IdeoUnwilling>this pawn's ideoligion forbids lovin' with a non-spouse</RoomService_Reason_IdeoUnwilling>
+  <RoomService_Reason_GuestIdeoUnwilling>guest's ideoligion forbids lovin' with a non-spouse</RoomService_Reason_GuestIdeoUnwilling>
+  <RoomService_Reason_NoBed>no eligible companionship bed available</RoomService_Reason_NoBed>
+  <RoomService_Reason_OnCooldown>guest was just propositioned recently, on cooldown</RoomService_Reason_OnCooldown>
+  <RoomService_Reason_CannotReachGuest>cannot reach or reserve the guest</RoomService_Reason_CannotReachGuest>
+  <RoomService_Reason_CannotReachBed>cannot reach or reserve the bed</RoomService_Reason_CannotReachBed>
+
+</LanguageData>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkTypeDef>
+    <defName>RoomService_Companionship</defName>
+    <labelShort>Companionship</labelShort>
+    <pawnLabel>Companion</pawnLabel>
+    <gerundLabel>Entertaining guests</gerundLabel>
+    <description>Companions may invite visiting guests back to their room, for a price. Off by default - assign it deliberately on the Work tab.</description>
+    <verb>Entertain</verb>
+    <naturalPriority>1040</naturalPriority>
+    <requireCapableColonist>true</requireCapableColonist>
+    <alwaysStartActive>false</alwaysStartActive>
+    <relevantSkills>
+      <li>Social</li>
+    </relevantSkills>
+    <workTags>
+      <li>Social</li>
+    </workTags>
+  </WorkTypeDef>
+
+</Defs>

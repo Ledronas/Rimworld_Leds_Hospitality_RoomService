@@ -1,0 +1,12 @@
+# Build artifacts / IDE junk - not needed to build or run the mod from source
+Source/obj/
+Source/bin/
+Source/.vs/
+*.user
+
+# Built assembly - source-only repo, build via Source/HospitalityRoomService.csproj
+Assemblies/*.dll
+Assemblies/*.pdb
+
+# Claude Code session-local config, not part of the mod
+.claude/

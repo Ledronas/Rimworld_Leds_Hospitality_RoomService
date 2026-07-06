@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <InteractionDef>
+    <defName>RoomService_SolicitAttempt</defName>
+    <label>proposition</label>
+    <symbolSource>InitiatorFaction</symbolSource>
+    <workerClass>HospitalityRoomService.InteractionWorker_SolicitAttempt</workerClass>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>50</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] [saidwords] [RECIPIENT_nameDef] to their room.</li>
+        <li>r_logentry->[INITIATOR_nameDef] made [adjwords] small talk with [RECIPIENT_nameDef].</li>
+        <li>saidwords->invited</li>
+        <li>saidwords->propositioned</li>
+        <li>adjwords->flirtatious</li>
+        <li>adjwords->suggestive</li>
+        <li>adjwords->charming</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+</Defs>

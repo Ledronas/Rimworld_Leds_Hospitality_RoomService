@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>RoomService_SolicitGuest</defName>
+    <driverClass>HospitalityRoomService.JobDriver_SolicitGuest</driverClass>
+    <reportString>talking with TargetA.</reportString>
+  </JobDef>
+
+</Defs>

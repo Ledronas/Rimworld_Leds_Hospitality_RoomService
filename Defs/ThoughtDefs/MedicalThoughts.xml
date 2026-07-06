@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThoughtDef>
+    <defName>RoomService_PaidForTreatment</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>paid for treatment</label>
+        <description>The colony patched me up, for a fee. Fair enough.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>RoomService_FreeTreatment</defName>
+    <durationDays>3</durationDays>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>treated for free</label>
+        <description>They treated my injuries even though I couldn't pay. Decent of them.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>
