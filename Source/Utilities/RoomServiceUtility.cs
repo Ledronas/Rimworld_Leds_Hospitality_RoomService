@@ -9,6 +9,8 @@ namespace HospitalityRoomService;
 
 public static class RoomServiceUtility
 {
+    private const int MinAdultAge = 18;
+
     /// <summary>
     /// Prefers the pawn's own bed if it's marked and free; otherwise falls back to the closest
     /// other marked bed on the map that isn't someone else's private room. Lets a bed be
@@ -60,11 +62,11 @@ public static class RoomServiceUtility
         if (pawn == null || guest == null || pawn == guest) return "RoomService_Reason_InvalidPawns".Translate();
         if (!pawn.IsColonist) return "RoomService_Reason_NotColonist".Translate();
         if (pawn.WorkTagIsDisabled(RoomServiceDefOf.RoomService_Companionship.workTags)) return "RoomService_Reason_WorkTagDisabled".Translate();
-        // Pawn_RelationsTracker.MinLovinAge is only 16 - that's vanilla's own threshold for the
-        // Lovin' job itself, not a stand-in for "is this pawn an adult". Gate on the actual adult
-        // life stage instead, so nobody below 18 is ever a valid initiator or target.
-        if (!pawn.DevelopmentalStage.Adult()) return "RoomService_Reason_InitiatorTooYoung".Translate();
-        if (!guest.DevelopmentalStage.Adult()) return "RoomService_Reason_GuestTooYoung".Translate();
+        // Neither Pawn_RelationsTracker.MinLovinAge (16) nor DevelopmentalStage.Adult() (true
+        // from as young as ~13, since it's just "not a child" rather than a real age threshold)
+        // actually gate at adulthood - check biological age directly instead.
+        if (pawn.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_InitiatorTooYoung".Translate();
+        if (guest.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_GuestTooYoung".Translate();
         var guestReason = WhyGuestNotViable(guest, IsCompanionshipTrainee(guest));
         if (guestReason != null) return guestReason;
         if (guest.relations.OpinionOf(pawn) <= -10) return "RoomService_Reason_OpinionTooLow".Translate();
