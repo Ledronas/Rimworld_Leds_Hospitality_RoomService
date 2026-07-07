@@ -51,6 +51,23 @@
     </stages>
   </ThoughtDef>
 
+  <ThoughtDef>
+    <defName>RoomService_MealDelivered</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackLimitForSameOtherPawn>2</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>had a meal brought to my room</label>
+        <labelSocial>brought a meal to my room</labelSocial>
+        <description>That colonist brought a meal right to my room. Very hospitable.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+        <baseOpinionOffset>2</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
   <!-- Mood tied 1:1 to RoomService_Experience's hediff stages - grows more positive the more
        a free colonist does this work. Slaves never gain this hediff, so they never see it. -->
   <ThoughtDef>

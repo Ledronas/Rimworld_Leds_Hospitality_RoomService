@@ -32,6 +32,10 @@ public class ModSettings_RoomService : ModSettings
     public static bool personalityReactions = true;
     public static float slaveWillReduction = 1f;
 
+    // Meal delivery
+    public static bool enableMealDelivery = true;
+    public static float mealDeliveryFee = 5f;
+
     public override void ExposeData()
     {
         base.ExposeData();
@@ -58,6 +62,9 @@ public class ModSettings_RoomService : ModSettings
         Scribe_Values.Look(ref affectsFactionGoodwill, "affectsFactionGoodwill", true);
         Scribe_Values.Look(ref personalityReactions, "personalityReactions", true);
         Scribe_Values.Look(ref slaveWillReduction, "slaveWillReduction", 1f);
+
+        Scribe_Values.Look(ref enableMealDelivery, "enableMealDelivery", true);
+        Scribe_Values.Look(ref mealDeliveryFee, "mealDeliveryFee", 5f);
     }
 
     private Vector2 scrollPosition = Vector2.zero;
@@ -137,6 +144,16 @@ public class ModSettings_RoomService : ModSettings
                 listing.Label("RoomService_Settings_SlaveWillReduction".Translate(slaveWillReduction.ToString("F1")));
                 slaveWillReduction = listing.Slider(slaveWillReduction, 0f, 5f);
             }
+        }
+
+        listing.GapLine();
+
+        listing.Label("RoomService_Settings_MealDeliverySection".Translate());
+        listing.CheckboxLabeled("RoomService_Settings_EnableMealDelivery".Translate(), ref enableMealDelivery);
+        if (enableMealDelivery)
+        {
+            listing.Label("RoomService_Settings_MealDeliveryFee".Translate(mealDeliveryFee.ToString("F0")));
+            mealDeliveryFee = listing.Slider(mealDeliveryFee, 0f, 50f);
         }
 
         listing.End();

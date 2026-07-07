@@ -6,7 +6,7 @@
     <labelShort>Companionship</labelShort>
     <pawnLabel>Companion</pawnLabel>
     <gerundLabel>Entertaining guests</gerundLabel>
-    <description>Companions may invite visiting guests back to their room, for a price. Off by default - assign it deliberately on the Work tab.</description>
+    <description>Companions handle room service for guests: inviting them back to a room for a price, and bringing hungry guests a meal where they're staying. Off by default - assign it deliberately on the Work tab.</description>
     <verb>Entertain</verb>
     <naturalPriority>1040</naturalPriority>
     <requireCapableColonist>true</requireCapableColonist>

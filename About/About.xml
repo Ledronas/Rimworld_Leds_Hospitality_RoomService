@@ -9,7 +9,7 @@
     <li>1.6</li>
   </supportedVersions>
   <description>
-Adds two guest services on top of Hospitality.
+Adds guest services on top of Hospitality.
 
 MEDICAL TREATMENT
 Guest beds can be flagged medical again (Hospitality normally disables this). Colonist doctors will tend injured visitors, who pay for treatment in silver - or get treated for free if they can't afford it, so nobody dies over a bill.
@@ -23,6 +23,9 @@ On top of the base mechanic:
 - Slaves react differently: a consistent negative thought each time, and their Will (escape/rebellion chance) is worn down - though if fully broken down while still growing strangely used to it, even Unwavering Loyal can eventually crack.
 - The bed's sheets visibly tint burgundy while the toggle is on.
 - Soft integration with "Intimacy - Friends n' Lovers", if installed - a completed session also feeds its Intimacy need.
+
+MEAL DELIVERY
+Companions may also bring a hungry guest a meal right to their room instead of making them go find their own food, for a small delivery fee - the room service theme, extended to meals.
 
 Every price, weight, and chance above is a slider in the mod settings, and each major feature has its own on/off switch.
 

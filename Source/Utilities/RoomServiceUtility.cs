@@ -9,7 +9,7 @@ namespace HospitalityRoomService;
 
 public static class RoomServiceUtility
 {
-    private const int MinAdultAge = 18;
+    public const int MinAdultAge = 18;
 
     /// <summary>
     /// Prefers the pawn's own bed if it's marked and free; otherwise falls back to the closest
@@ -62,9 +62,9 @@ public static class RoomServiceUtility
         if (pawn == null || guest == null || pawn == guest) return "RoomService_Reason_InvalidPawns".Translate();
         if (!pawn.IsColonist) return "RoomService_Reason_NotColonist".Translate();
         if (pawn.WorkTagIsDisabled(RoomServiceDefOf.RoomService_Companionship.workTags)) return "RoomService_Reason_WorkTagDisabled".Translate();
-        // Pawn_RelationsTracker.MinLovinAge is only 16 - that's vanilla's own threshold for the
-        // Lovin' job itself, not an adulthood check. Gate on actual biological age instead, so
-        // nobody below 18 is ever a valid initiator or target.
+        // Neither Pawn_RelationsTracker.MinLovinAge (16) nor DevelopmentalStage.Adult() (true
+        // from as young as ~13, since it's just "not a child" rather than a real age threshold)
+        // actually gate at adulthood - check biological age directly instead.
         if (pawn.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_InitiatorTooYoung".Translate();
         if (guest.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_GuestTooYoung".Translate();
         var guestReason = WhyGuestNotViable(guest);
@@ -205,6 +205,11 @@ public static class RoomServiceUtility
             grantedTempRelation = true;
         }
 
+        // Vanilla auto-reassigns bed ownership to "partners" sharing a bed, which would
+        // otherwise silently evict a guest from a bed they already paid Hospitality to rent -
+        // remember it so it can be restored once the encounter is over.
+        var guestPreviousBed = guest.ownership?.OwnedBed;
+
         var job = JobMaker.MakeJob(JobDefOf.Lovin, guest, bed);
         pawn.jobs.StartJob(job, JobCondition.InterruptForced, resumeCurJobAfterwards: false);
 
@@ -214,7 +219,7 @@ public static class RoomServiceUtility
             // bed and went through with it) before charging payment or granting thoughts -
             // otherwise a job that gets interrupted partway (bed taken, pawn drafted, etc.)
             // would still have already been "paid for", which felt disconnected and glitchy.
-            pawn.jobs.curDriver.AddFinishAction(condition => OnLovinFinished(pawn, guest, bed, condition, grantedTempRelation));
+            pawn.jobs.curDriver.AddFinishAction(condition => OnLovinFinished(pawn, guest, bed, condition, grantedTempRelation, guestPreviousBed));
         }
         else if (grantedTempRelation)
         {
@@ -223,7 +228,7 @@ public static class RoomServiceUtility
         }
     }
 
-    private static void OnLovinFinished(Pawn pawn, Pawn guest, Building_Bed bed, JobCondition condition, bool grantedTempRelation)
+    private static void OnLovinFinished(Pawn pawn, Pawn guest, Building_Bed bed, JobCondition condition, bool grantedTempRelation, Building_Bed guestPreviousBed)
     {
         if (grantedTempRelation) RemoveTempLoverRelation(pawn, guest);
 
@@ -236,6 +241,23 @@ public static class RoomServiceUtility
         if (guest.ownership?.OwnedBed == bed)
         {
             guest.ownership.UnclaimBed();
+        }
+
+        // Restore whatever bed the guest had before (e.g. a Hospitality guest bed they already
+        // paid rent for) - otherwise the same vanilla "one owned bed at a time" reshuffle above
+        // leaves them without one, and Hospitality makes them buy it all over again. Re-claim it
+        // through Building_GuestBed's own path (not just vanilla ownership) so its rental stats
+        // and assignment tracking stay consistent, matching however they originally claimed it.
+        if (guestPreviousBed != null && guestPreviousBed.Spawned && guest.ownership?.OwnedBed != guestPreviousBed)
+        {
+            if (guestPreviousBed is Hospitality.Building_GuestBed guestBed)
+            {
+                guestBed.TryClaimBed(guest);
+            }
+            else
+            {
+                guest.ownership?.ClaimBedIfNonMedical(guestPreviousBed);
+            }
         }
 
         if (condition != JobCondition.Succeeded) return; // interrupted/errored partway - no payment, no thoughts
@@ -329,6 +351,38 @@ public static class RoomServiceUtility
     private static void Fail(Pawn pawn, Pawn guest)
     {
         guest.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_Declined, pawn);
+    }
+
+    /// <summary>
+    /// Gated on the guest actually resting in their room (not just standing around anywhere on
+    /// the map) so this reads as room service, not a colonist chasing down every hungry guest.
+    /// </summary>
+    public static bool CanDeliverMeal(Pawn pawn, Pawn guest)
+    {
+        if (!ModSettings_RoomService.enableMealDelivery) return false;
+        if (pawn == null || guest == null || pawn == guest) return false;
+        if (!pawn.IsColonist) return false;
+        if (!GuestUtility.IsArrivedGuest(guest, out _)) return false;
+        if (guest.Downed) return false;
+        if (!RestUtility.InBed(guest)) return false;
+        if (guest.needs?.food == null || guest.needs.food.CurCategory < HungerCategory.Hungry) return false;
+        if (guest.CurJobDef == JobDefOf.Ingest) return false;
+        if (guest.CurJob?.def.casualInterruptible == false) return false;
+        if (!pawn.CanReserveAndReach(guest, PathEndMode.Touch, pawn.NormalMaxDanger())) return false;
+        return true;
+    }
+
+    public static void OnMealDelivered(Pawn pawn, Pawn guest)
+    {
+        var fee = Mathf.Max(0, Mathf.RoundToInt(ModSettings_RoomService.mealDeliveryFee));
+        var paid = TakeSilverFromPawn(guest, fee);
+        if (paid > 0)
+        {
+            DropSilverNear(pawn.MapHeld, pawn.Position, paid);
+            pawn.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_GotPaid);
+        }
+
+        guest.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_MealDelivered, pawn);
     }
 
     public static int TakeSilverFromPawn(Pawn pawn, int amount)
