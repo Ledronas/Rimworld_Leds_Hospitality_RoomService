@@ -32,6 +32,15 @@ public class ModSettings_RoomService : ModSettings
     public static bool personalityReactions = true;
     public static float slaveWillReduction = 1f;
 
+    // Meal delivery
+    public static bool enableMealDelivery = true;
+    public static float mealDeliveryFee = 5f;
+
+    // Slave companionship training
+    public static bool enableSlaveCompanionshipTraining = true;
+    public static float slaveTrainingSocialXp = 30f;
+    public static float slaveTrainingSuppressionBoost = 0.05f;
+
     public override void ExposeData()
     {
         base.ExposeData();
@@ -58,6 +67,13 @@ public class ModSettings_RoomService : ModSettings
         Scribe_Values.Look(ref affectsFactionGoodwill, "affectsFactionGoodwill", true);
         Scribe_Values.Look(ref personalityReactions, "personalityReactions", true);
         Scribe_Values.Look(ref slaveWillReduction, "slaveWillReduction", 1f);
+
+        Scribe_Values.Look(ref enableMealDelivery, "enableMealDelivery", true);
+        Scribe_Values.Look(ref mealDeliveryFee, "mealDeliveryFee", 5f);
+
+        Scribe_Values.Look(ref enableSlaveCompanionshipTraining, "enableSlaveCompanionshipTraining", true);
+        Scribe_Values.Look(ref slaveTrainingSocialXp, "slaveTrainingSocialXp", 30f);
+        Scribe_Values.Look(ref slaveTrainingSuppressionBoost, "slaveTrainingSuppressionBoost", 0.05f);
     }
 
     private Vector2 scrollPosition = Vector2.zero;
@@ -137,6 +153,29 @@ public class ModSettings_RoomService : ModSettings
                 listing.Label("RoomService_Settings_SlaveWillReduction".Translate(slaveWillReduction.ToString("F1")));
                 slaveWillReduction = listing.Slider(slaveWillReduction, 0f, 5f);
             }
+        }
+
+        listing.GapLine();
+
+        listing.Label("RoomService_Settings_MealDeliverySection".Translate());
+        listing.CheckboxLabeled("RoomService_Settings_EnableMealDelivery".Translate(), ref enableMealDelivery);
+        if (enableMealDelivery)
+        {
+            listing.Label("RoomService_Settings_MealDeliveryFee".Translate(mealDeliveryFee.ToString("F0")));
+            mealDeliveryFee = listing.Slider(mealDeliveryFee, 0f, 50f);
+        }
+
+        listing.GapLine();
+
+        listing.Label("RoomService_Settings_SlaveTrainingSection".Translate());
+        listing.CheckboxLabeled("RoomService_Settings_EnableSlaveCompanionshipTraining".Translate(), ref enableSlaveCompanionshipTraining);
+        if (enableSlaveCompanionshipTraining)
+        {
+            listing.Label("RoomService_Settings_SlaveTrainingSocialXp".Translate(slaveTrainingSocialXp.ToString("F0")));
+            slaveTrainingSocialXp = listing.Slider(slaveTrainingSocialXp, 0f, 200f);
+
+            listing.Label("RoomService_Settings_SlaveTrainingSuppressionBoost".Translate(slaveTrainingSuppressionBoost.ToString("P1")));
+            slaveTrainingSuppressionBoost = listing.Slider(slaveTrainingSuppressionBoost, 0f, 0.5f);
         }
 
         listing.End();

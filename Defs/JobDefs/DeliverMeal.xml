@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>RoomService_DeliverMeal</defName>
+    <driverClass>HospitalityRoomService.JobDriver_DeliverMealToGuest</driverClass>
+    <reportString>bringing a meal to TargetB.</reportString>
+  </JobDef>
+
+</Defs>

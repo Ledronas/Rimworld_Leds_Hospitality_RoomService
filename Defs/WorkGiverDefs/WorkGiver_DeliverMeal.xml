@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <WorkGiverDef>
+    <defName>RoomService_DeliverMeal</defName>
+    <label>bring guests a meal</label>
+    <giverClass>HospitalityRoomService.WorkGiver_DeliverMealToGuest</giverClass>
+    <workType>RoomService_Companionship</workType>
+    <verb>feed</verb>
+    <gerund>bringing a meal to a guest</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>
