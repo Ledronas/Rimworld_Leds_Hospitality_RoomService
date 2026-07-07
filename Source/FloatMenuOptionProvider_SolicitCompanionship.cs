@@ -21,7 +21,7 @@ public class FloatMenuOptionProvider_SolicitCompanionship : FloatMenuOptionProvi
 
     public override bool TargetPawnValid(Pawn pawn, FloatMenuContext context)
     {
-        return pawn.IsGuest() || RoomServiceUtility.IsCompanionshipTrainee(pawn);
+        return pawn.IsGuest();
     }
 
     protected override FloatMenuOption GetSingleOptionFor(Pawn clickedPawn, FloatMenuContext context)

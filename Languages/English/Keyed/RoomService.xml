@@ -30,13 +30,6 @@
   <RoomService_Settings_EnableMealDelivery>Companions may bring hungry guests a meal in their room</RoomService_Settings_EnableMealDelivery>
   <RoomService_Settings_MealDeliveryFee>Delivery fee: {0}</RoomService_Settings_MealDeliveryFee>
 
-  <RoomService_Settings_SlaveTrainingSection>Slave companionship training</RoomService_Settings_SlaveTrainingSection>
-  <RoomService_Settings_EnableSlaveCompanionshipTraining>Allow slaves to be marked for companionship training</RoomService_Settings_EnableSlaveCompanionshipTraining>
-  <RoomService_Settings_SlaveTrainingSocialXp>Slave Social XP per session: {0}</RoomService_Settings_SlaveTrainingSocialXp>
-  <RoomService_Settings_SlaveTrainingSuppressionBoost>Suppression boost per session: {0}</RoomService_Settings_SlaveTrainingSuppressionBoost>
-
-  <RoomService_SlaveTrainingCheckbox>Allow companionship training</RoomService_SlaveTrainingCheckbox>
-
   <RoomService_ToggleBedLabel>Allow entertaining guests</RoomService_ToggleBedLabel>
   <RoomService_ToggleBedDesc>A colonist with the Companionship work type enabled may invite a visiting guest here, for a price. Prefers their own bed if it's marked, but any marked bed that isn't someone else's will do - and the nicer the bed and room, the more they can charge.</RoomService_ToggleBedDesc>
 

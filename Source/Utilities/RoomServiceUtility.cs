@@ -9,7 +9,7 @@ namespace HospitalityRoomService;
 
 public static class RoomServiceUtility
 {
-    private const int MinAdultAge = 18;
+    public const int MinAdultAge = 18;
 
     /// <summary>
     /// Prefers the pawn's own bed if it's marked and free; otherwise falls back to the closest
@@ -67,7 +67,7 @@ public static class RoomServiceUtility
         // actually gate at adulthood - check biological age directly instead.
         if (pawn.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_InitiatorTooYoung".Translate();
         if (guest.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_GuestTooYoung".Translate();
-        var guestReason = WhyGuestNotViable(guest, IsCompanionshipTrainee(guest));
+        var guestReason = WhyGuestNotViable(guest);
         if (guestReason != null) return guestReason;
         if (guest.relations.OpinionOf(pawn) <= -10) return "RoomService_Reason_OpinionTooLow".Translate();
         if (!SocialInteractionUtility.CanInitiateInteraction(pawn)) return "RoomService_Reason_CannotInitiate".Translate();
@@ -105,27 +105,14 @@ public static class RoomServiceUtility
     }
 
     /// <summary>
-    /// A slave flagged for companionship training (see CompCompanionshipTrainee, toggled from
-    /// the Slave tab) is a valid target alongside actual Hospitality guests - a colony pawn, not
-    /// a visitor, so it obviously can't pass IsArrivedGuest, but every other liveness check below
-    /// still applies to them the same way.
-    /// </summary>
-    public static bool IsCompanionshipTrainee(Pawn pawn)
-    {
-        return ModSettings_RoomService.enableSlaveCompanionshipTraining
-               && pawn.IsSlaveOfColony
-               && pawn.TryGetComp<CompCompanionshipTrainee>() is { trainingEnabled: true };
-    }
-
-    /// <summary>
     /// Breaks GuestUtility.ViableGuestTarget's checks out individually so the debug float menu
     /// can say specifically why (busy job, eating, tired, etc.) instead of just "not viable" -
     /// two of the original checks are private in Hospitality's own code, so those two are
     /// reproduced here directly against the same public vanilla members they use internally.
     /// </summary>
-    private static string WhyGuestNotViable(Pawn guest, bool isTrainingSlave)
+    private static string WhyGuestNotViable(Pawn guest)
     {
-        if (!isTrainingSlave && !GuestUtility.IsArrivedGuest(guest, out _)) return "RoomService_Reason_GuestNotArrived".Translate();
+        if (!GuestUtility.IsArrivedGuest(guest, out _)) return "RoomService_Reason_GuestNotArrived".Translate();
         if (guest.Downed) return "RoomService_Reason_GuestDowned".Translate();
         if (!guest.Awake()) return "RoomService_Reason_GuestAsleep".Translate();
         if (GuestUtility.HasDismissiveThought(guest)) return "RoomService_Reason_GuestDismissive".Translate();
@@ -275,33 +262,24 @@ public static class RoomServiceUtility
 
         if (condition != JobCondition.Succeeded) return; // interrupted/errored partway - no payment, no thoughts
 
-        if (IsCompanionshipTrainee(guest))
+        var room = RegionAndRoomQuery.GetRoom(bed, RegionType.Set_Passable);
+        var roomBonus = (room?.GetStat(RoomStatDefOf.Impressiveness) ?? 0f) * ModSettings_RoomService.roomQualityWeight;
+        var bedBonus = bed.MarketValue * ModSettings_RoomService.bedValueWeight;
+
+        var basePrice = guest.GetStatValue(StatDefOf.PawnBeauty) * 10 + pawn.skills.GetSkill(SkillDefOf.Social).Level * 5 + roomBonus + bedBonus;
+        var price = Mathf.Max(1, Mathf.RoundToInt(basePrice * ModSettings_RoomService.priceFactorSolicit));
+        var paid = TakeSilverFromPawn(guest, price);
+        if (paid > 0)
         {
-            // A slave in training isn't a paying customer - no silver, no faction goodwill,
-            // just the deliberate training payoff (their own Social XP and a suppression boost).
-            ApplyTrainingOutcome(pawn, guest);
+            DropSilverNear(pawn.MapHeld, bed.Position, paid);
+            pawn.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_GotPaid);
         }
-        else
+
+        guest.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_Accepted, pawn);
+
+        if (ModSettings_RoomService.affectsFactionGoodwill && guest.Faction is { IsPlayer: false })
         {
-            var room = RegionAndRoomQuery.GetRoom(bed, RegionType.Set_Passable);
-            var roomBonus = (room?.GetStat(RoomStatDefOf.Impressiveness) ?? 0f) * ModSettings_RoomService.roomQualityWeight;
-            var bedBonus = bed.MarketValue * ModSettings_RoomService.bedValueWeight;
-
-            var basePrice = guest.GetStatValue(StatDefOf.PawnBeauty) * 10 + pawn.skills.GetSkill(SkillDefOf.Social).Level * 5 + roomBonus + bedBonus;
-            var price = Mathf.Max(1, Mathf.RoundToInt(basePrice * ModSettings_RoomService.priceFactorSolicit));
-            var paid = TakeSilverFromPawn(guest, price);
-            if (paid > 0)
-            {
-                DropSilverNear(pawn.MapHeld, bed.Position, paid);
-                pawn.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_GotPaid);
-            }
-
-            guest.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_Accepted, pawn);
-
-            if (ModSettings_RoomService.affectsFactionGoodwill && guest.Faction is { IsPlayer: false })
-            {
-                guest.Faction.TryAffectGoodwillWith(Faction.OfPlayer, 1, canSendMessage: false, canSendHostilityLetter: false);
-            }
+            guest.Faction.TryAffectGoodwillWith(Faction.OfPlayer, 1, canSendMessage: false, canSendHostilityLetter: false);
         }
 
         // Social is one of the hardest skills to train through normal means, and actually
@@ -313,19 +291,6 @@ public static class RoomServiceUtility
         OptionalIntimacy.TryGainIntimacy(guest);
 
         if (ModSettings_RoomService.personalityReactions) ApplyPersonalityReaction(pawn);
-    }
-
-    private static void ApplyTrainingOutcome(Pawn pawn, Pawn guest)
-    {
-        guest.skills?.Learn(SkillDefOf.Social, ModSettings_RoomService.slaveTrainingSocialXp);
-
-        var suppression = guest.needs?.TryGetNeed<Need_Suppression>();
-        if (suppression != null)
-        {
-            SlaveRebellionUtility.IncrementSuppression(suppression, pawn, guest, ModSettings_RoomService.slaveTrainingSuppressionBoost);
-        }
-
-        guest.needs?.mood?.thoughts?.memories?.TryGainMemory(RoomServiceDefOf.RoomService_CompanionshipTraining, pawn);
     }
 
     /// <summary>

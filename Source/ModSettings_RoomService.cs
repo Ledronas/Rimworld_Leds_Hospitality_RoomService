@@ -36,11 +36,6 @@ public class ModSettings_RoomService : ModSettings
     public static bool enableMealDelivery = true;
     public static float mealDeliveryFee = 5f;
 
-    // Slave companionship training
-    public static bool enableSlaveCompanionshipTraining = true;
-    public static float slaveTrainingSocialXp = 30f;
-    public static float slaveTrainingSuppressionBoost = 0.05f;
-
     public override void ExposeData()
     {
         base.ExposeData();
@@ -70,10 +65,6 @@ public class ModSettings_RoomService : ModSettings
 
         Scribe_Values.Look(ref enableMealDelivery, "enableMealDelivery", true);
         Scribe_Values.Look(ref mealDeliveryFee, "mealDeliveryFee", 5f);
-
-        Scribe_Values.Look(ref enableSlaveCompanionshipTraining, "enableSlaveCompanionshipTraining", true);
-        Scribe_Values.Look(ref slaveTrainingSocialXp, "slaveTrainingSocialXp", 30f);
-        Scribe_Values.Look(ref slaveTrainingSuppressionBoost, "slaveTrainingSuppressionBoost", 0.05f);
     }
 
     private Vector2 scrollPosition = Vector2.zero;
@@ -163,19 +154,6 @@ public class ModSettings_RoomService : ModSettings
         {
             listing.Label("RoomService_Settings_MealDeliveryFee".Translate(mealDeliveryFee.ToString("F0")));
             mealDeliveryFee = listing.Slider(mealDeliveryFee, 0f, 50f);
-        }
-
-        listing.GapLine();
-
-        listing.Label("RoomService_Settings_SlaveTrainingSection".Translate());
-        listing.CheckboxLabeled("RoomService_Settings_EnableSlaveCompanionshipTraining".Translate(), ref enableSlaveCompanionshipTraining);
-        if (enableSlaveCompanionshipTraining)
-        {
-            listing.Label("RoomService_Settings_SlaveTrainingSocialXp".Translate(slaveTrainingSocialXp.ToString("F0")));
-            slaveTrainingSocialXp = listing.Slider(slaveTrainingSocialXp, 0f, 200f);
-
-            listing.Label("RoomService_Settings_SlaveTrainingSuppressionBoost".Translate(slaveTrainingSuppressionBoost.ToString("P1")));
-            slaveTrainingSuppressionBoost = listing.Slider(slaveTrainingSuppressionBoost, 0f, 0.5f);
         }
 
         listing.End();

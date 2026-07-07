@@ -15,7 +15,6 @@ public static class RoomServiceDefOf
     public static ThoughtDef RoomService_Declined;
     public static ThoughtDef RoomService_GotPaid;
     public static ThoughtDef RoomService_MealDelivered;
-    public static ThoughtDef RoomService_CompanionshipTraining;
     public static ThoughtDef RoomService_PaidForTreatment;
     public static ThoughtDef RoomService_FreeTreatment;
     public static ThoughtDef RoomService_DislikesIt;
