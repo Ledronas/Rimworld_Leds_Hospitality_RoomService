@@ -12,10 +12,12 @@
 Adds guest services on top of Hospitality.
 
 MEDICAL TREATMENT
-Guest beds can be flagged medical again (Hospitality normally disables this). Colonist doctors will tend injured visitors, who pay for treatment in silver - or get treated for free if they can't afford it, so nobody dies over a bill.
+Guest beds can be flagged medical again (Hospitality normally disables this). Colonist doctors will tend injured visitors, who pay for treatment in silver - or get treated for free if they can't afford it, so nobody dies over a bill. Beds can also charge a per-day fee for the time a guest spends occupying one.
+
+Rarely, an arriving guest may need a specific operation instead (a missing body part with a bionic or prosthetic replacement) - if the colony has (or can produce) the part, a letter offers the option to treat them for a labor fee plus reimbursement for the part, and you can decline if you'd rather not.
 
 COMPANIONSHIP
-Designate a colonist's own double bed for entertaining guests via a new bed toggle. Colonists with the new "Companionship" work type enabled (off by default - opt in per pawn on the Work tab) may invite a visiting guest back to their room. Success is based on the colonist's Social skill and Beauty, respects RimWorld's normal gender/orientation compatibility, and hands off entirely to the game's own lovin' job - nothing explicit is added or depicted. Guests pay for the privilege once the encounter actually finishes.
+Colonists with the new "Companionship" work type enabled (off by default - opt in per pawn on the Work tab, and locked to adults - nobody under 18 can ever be assigned it or take part in it, either side) may invite a visiting guest back to a marked bed. Mark any bed for this via a bed toggle - a colonist's own bed is preferred if marked, but any marked bed that isn't someone else's private room will do, and the nicer the bed and room, the more they can charge. Success is based on the colonist's Social skill and Beauty, respects RimWorld's normal gender/orientation compatibility and each pawn's ideoligion (a strict monogamy precept makes a married or principled pawn unwilling, same as vanilla), and hands off entirely to the game's own lovin' job - nothing explicit is added or depicted. Guests pay for the privilege once the encounter actually finishes.
 
 On top of the base mechanic:
 - Trains Social skill, one of the hardest stats to raise normally.
