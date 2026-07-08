@@ -91,7 +91,16 @@ public class ModSettings_RoomService : ModSettings
     private void DoSettingsWindowContentsInner(Rect inRect)
     {
         var viewRect = new Rect(0f, 0f, inRect.width - 16f, viewHeight);
-        Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
+
+        // TEMPORARY diagnostic - no exception is being thrown (confirmed via the try/catch
+        // around this method), yet only the very first line renders in-game with nothing below
+        // it and no scrollbar. Printing the actual rect sizes directly on screen to rule out (or
+        // confirm) a degenerate inRect/viewRect before guessing further.
+        Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 24f),
+            $"DEBUG inRect={inRect.width:F0}x{inRect.height:F0} viewRect={viewRect.width:F0}x{viewRect.height:F0} viewHeight={viewHeight:F0}");
+        var shiftedInRect = new Rect(inRect.x, inRect.y + 26f, inRect.width, inRect.height - 26f);
+
+        Widgets.BeginScrollView(shiftedInRect, ref scrollPosition, viewRect);
 
         var listing = new Listing_Standard();
         listing.Begin(viewRect);
