@@ -70,6 +70,7 @@ public class ModSettings_RoomService : ModSettings
 
     private Vector2 scrollPosition = Vector2.zero;
     private float viewHeight = 1000f;
+    private int lastStep = -1;
 
     public void DoSettingsWindowContents(Rect inRect)
     {
@@ -94,34 +95,42 @@ public class ModSettings_RoomService : ModSettings
 
         // TEMPORARY diagnostic - no exception is being thrown (confirmed via the try/catch
         // around this method), yet only the very first line renders in-game with nothing below
-        // it and no scrollbar. Printing the actual rect sizes directly on screen to rule out (or
-        // confirm) a degenerate inRect/viewRect before guessing further.
+        // it and no scrollbar. Printing the actual rect sizes plus a step counter (how many
+        // listing calls actually completed last frame) to pinpoint exactly where it stops.
         Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 24f),
-            $"DEBUG inRect={inRect.width:F0}x{inRect.height:F0} viewRect={viewRect.width:F0}x{viewRect.height:F0} viewHeight={viewHeight:F0}");
+            $"DEBUG inRect={inRect.width:F0}x{inRect.height:F0} viewRect={viewRect.width:F0}x{viewRect.height:F0} viewHeight={viewHeight:F0} lastStep={lastStep}");
         var shiftedInRect = new Rect(inRect.x, inRect.y + 26f, inRect.width, inRect.height - 26f);
 
         Widgets.BeginScrollView(shiftedInRect, ref scrollPosition, viewRect);
 
         var listing = new Listing_Standard();
         listing.Begin(viewRect);
+        var step = 0;
 
         listing.Label("RoomService_Settings_MedicalSection".Translate());
+        step = 1;
         listing.CheckboxLabeled("RoomService_Settings_AllowGuestMedicalBeds".Translate(), ref allowGuestMedicalBeds);
+        step = 2;
         listing.CheckboxLabeled("RoomService_Settings_GuestsPayForTreatment".Translate(), ref guestsPayForTreatment);
+        step = 3;
         if (guestsPayForTreatment)
         {
             listing.Label("RoomService_Settings_MedicalPriceFactor".Translate(medicalPriceFactor.ToString("F2")));
             medicalPriceFactor = listing.Slider(medicalPriceFactor, 0f, 2f);
+            step = 4;
 
             listing.CheckboxLabeled("RoomService_Settings_ChargeForBedOccupancy".Translate(), ref chargeForBedOccupancy);
+            step = 5;
             if (chargeForBedOccupancy)
             {
                 listing.Label("RoomService_Settings_BedOccupancyRatePerDay".Translate(bedOccupancyRatePerDay.ToString("F0")));
                 bedOccupancyRatePerDay = listing.Slider(bedOccupancyRatePerDay, 0f, 200f);
+                step = 6;
             }
         }
 
         listing.CheckboxLabeled("RoomService_Settings_EnableMedicalGuestEvents".Translate(), ref enableMedicalGuestEvents);
+        step = 7;
         if (enableMedicalGuestEvents)
         {
             listing.Label("RoomService_Settings_MedicalGuestChance".Translate(medicalGuestChance.ToString("P1")));
@@ -133,8 +142,10 @@ public class ModSettings_RoomService : ModSettings
             listing.Label("RoomService_Settings_PartReimbursementFactor".Translate(partReimbursementFactor.ToString("F2")));
             partReimbursementFactor = listing.Slider(partReimbursementFactor, 0f, 2f);
         }
+        step = 8;
 
         listing.GapLine();
+        step = 9;
 
         listing.Label("RoomService_Settings_SolicitationSection".Translate());
         listing.CheckboxLabeled("RoomService_Settings_EnableSolicitation".Translate(), ref enableSolicitation);
@@ -172,19 +183,25 @@ public class ModSettings_RoomService : ModSettings
                 slaveWillReduction = listing.Slider(slaveWillReduction, 0f, 5f);
             }
         }
+        step = 10;
 
         listing.GapLine();
+        step = 11;
 
         listing.Label("RoomService_Settings_MealDeliverySection".Translate());
         listing.CheckboxLabeled("RoomService_Settings_EnableMealDelivery".Translate(), ref enableMealDelivery);
+        step = 12;
         if (enableMealDelivery)
         {
             listing.Label("RoomService_Settings_MealDeliveryFee".Translate(mealDeliveryFee.ToString("F0")));
             mealDeliveryFee = listing.Slider(mealDeliveryFee, 0f, 50f);
+            step = 13;
         }
 
         listing.End();
+        step = 14;
         viewHeight = listing.CurHeight;
+        lastStep = step;
         Widgets.EndScrollView();
     }
 }
