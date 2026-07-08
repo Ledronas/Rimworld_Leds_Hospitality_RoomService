@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Verse;
 
@@ -71,6 +72,23 @@ public class ModSettings_RoomService : ModSettings
     private float viewHeight = 1000f;
 
     public void DoSettingsWindowContents(Rect inRect)
+    {
+        // Only "Guest medical treatment" (the very first line) was rendering in-game, with
+        // everything after it silently missing and no visible scrollbar - almost certainly an
+        // exception partway through this method that Unity's IMGUI swallows without a clean
+        // stack trace reaching Player.log on its own. Wrapping the whole thing so the real
+        // exception (if any) gets logged explicitly instead of just vanishing.
+        try
+        {
+            DoSettingsWindowContentsInner(inRect);
+        }
+        catch (Exception e)
+        {
+            Log.Error($"[RoomService] Exception in mod settings window:\n{e}");
+        }
+    }
+
+    private void DoSettingsWindowContentsInner(Rect inRect)
     {
         var viewRect = new Rect(0f, 0f, inRect.width - 16f, viewHeight);
         Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
