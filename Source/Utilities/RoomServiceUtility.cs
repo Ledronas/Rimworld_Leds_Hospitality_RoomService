@@ -64,9 +64,10 @@ public static class RoomServiceUtility
         if (pawn.WorkTagIsDisabled(RoomServiceDefOf.RoomService_Companionship.workTags)) return "RoomService_Reason_WorkTagDisabled".Translate();
         // Neither Pawn_RelationsTracker.MinLovinAge (16) nor DevelopmentalStage.Adult() (true
         // from as young as ~13, since it's just "not a child" rather than a real age threshold)
-        // actually gate at adulthood - check biological age directly instead.
-        if (pawn.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_InitiatorTooYoung".Translate();
-        if (guest.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_GuestTooYoung".Translate();
+        // actually gate at adulthood - check biological age directly instead. Non-biological
+        // pawns (mechs, etc.) have no ageTracker at all.
+        if (pawn.ageTracker == null || pawn.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_InitiatorTooYoung".Translate();
+        if (guest.ageTracker == null || guest.ageTracker.AgeBiologicalYears < MinAdultAge) return "RoomService_Reason_GuestTooYoung".Translate();
         var guestReason = WhyGuestNotViable(guest);
         if (guestReason != null) return guestReason;
         if (guest.relations.OpinionOf(pawn) <= -10) return "RoomService_Reason_OpinionTooLow".Translate();
