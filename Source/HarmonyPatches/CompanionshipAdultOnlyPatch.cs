@@ -21,6 +21,13 @@ public static class CompanionshipAdultOnlyPatch
     {
         if (__result) return; // already disabled for some other reason
         if (w != RoomServiceDefOf.RoomService_Companionship) return;
+
+        // Non-biological pawns (mechanoids, etc.) have no ageTracker at all - WorkTypeIsDisabled
+        // gets called for every pawn during Pawn_WorkSettings.EnableAndInitialize(), not just
+        // humanlike colonists, and this crashed mech generation entirely for anyone with a mech
+        // framework mod installed alongside this one.
+        if (__instance.ageTracker == null) return;
+
         if (__instance.ageTracker.AgeBiologicalYears < RoomServiceUtility.MinAdultAge) __result = true;
     }
 }

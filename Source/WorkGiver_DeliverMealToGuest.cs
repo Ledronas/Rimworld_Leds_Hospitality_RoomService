@@ -15,7 +15,8 @@ public class WorkGiver_DeliverMealToGuest : WorkGiver_Scanner
         if (!ModSettings_RoomService.enableMealDelivery) return true;
         // Same Companionship work type as soliciting - hard lock at the work-giver level so an
         // underage colonist can't be assigned any duty under it, not just the solicit half.
-        if (pawn == null || pawn.ageTracker.AgeBiologicalYears < RoomServiceUtility.MinAdultAge) return true;
+        // Non-biological pawns (mechs, etc.) have no ageTracker at all.
+        if (pawn?.ageTracker == null || pawn.ageTracker.AgeBiologicalYears < RoomServiceUtility.MinAdultAge) return true;
         return pawn.WorkTagIsDisabled(def.workType.workTags);
     }
 
