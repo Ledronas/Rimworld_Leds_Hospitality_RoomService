@@ -36,6 +36,10 @@ public class ModSettings_RoomService : ModSettings
     public static bool enableMealDelivery = true;
     public static float mealDeliveryFee = 5f;
 
+    // Hospital mod hand-off (soft integration, no-op if that mod isn't installed)
+    public static bool enableGuestHospitalHandoff = true;
+    public static float guestHospitalHandoffChance = 0.5f;
+
     public override void ExposeData()
     {
         base.ExposeData();
@@ -65,6 +69,9 @@ public class ModSettings_RoomService : ModSettings
 
         Scribe_Values.Look(ref enableMealDelivery, "enableMealDelivery", true);
         Scribe_Values.Look(ref mealDeliveryFee, "mealDeliveryFee", 5f);
+
+        Scribe_Values.Look(ref enableGuestHospitalHandoff, "enableGuestHospitalHandoff", true);
+        Scribe_Values.Look(ref guestHospitalHandoffChance, "guestHospitalHandoffChance", 0.5f);
     }
 
     private Vector2 scrollPosition = Vector2.zero;
@@ -162,6 +169,16 @@ public class ModSettings_RoomService : ModSettings
         {
             listing.Label("RoomService_Settings_MealDeliveryFee".Translate(mealDeliveryFee.ToString("F0")));
             mealDeliveryFee = listing.Slider(mealDeliveryFee, 0f, 50f);
+        }
+
+        listing.GapLine();
+
+        listing.Label("RoomService_Settings_HospitalHandoffSection".Translate());
+        listing.CheckboxLabeled("RoomService_Settings_EnableGuestHospitalHandoff".Translate(), ref enableGuestHospitalHandoff);
+        if (enableGuestHospitalHandoff)
+        {
+            listing.Label("RoomService_Settings_GuestHospitalHandoffChance".Translate(guestHospitalHandoffChance.ToString("P0")));
+            guestHospitalHandoffChance = listing.Slider(guestHospitalHandoffChance, 0f, 1f);
         }
 
         listing.End();

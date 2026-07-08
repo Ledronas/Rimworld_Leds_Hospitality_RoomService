@@ -29,6 +29,9 @@ On top of the base mechanic:
 MEAL DELIVERY
 Companions may also bring a hungry guest a meal right to their room instead of making them go find their own food, for a small delivery fee - the room service theme, extended to meals.
 
+HOSPITAL HAND-OFF (requires the separate "Hospital" mod by Adamas)
+If a visiting guest falls sick or gets hurt by an ordinary random event while staying with you, they can be handed off to become a tracked patient of the separate "Hospital" mod instead - that mod's own billing, tending, and patient management take over from there. Does nothing if that mod isn't installed.
+
 Every price, weight, and chance above is a slider in the mod settings, and each major feature has its own on/off switch.
 
 Requires Hospitality and Harmony (load after both).
@@ -53,5 +56,7 @@ Requires Hospitality and Harmony (load after both).
     <li>Orion.Hospitality</li>
     <!-- Optional - "Intimacy - Friends n' Lovers", soft integration only, not required -->
     <li>LovelyDovey.Sex.WithEuterpe</li>
+    <!-- Optional - "Hospital" by Adamas, soft integration only, not required -->
+    <li>Adamas.Hospital</li>
   </loadAfter>
 </ModMetaData>
