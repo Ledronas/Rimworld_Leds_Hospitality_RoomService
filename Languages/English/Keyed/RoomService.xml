@@ -22,6 +22,7 @@
   <RoomService_Settings_BedValueWeight>Bed value weight: {0}</RoomService_Settings_BedValueWeight>
   <RoomService_Settings_SocialXpPerSession>Social XP per session: {0}</RoomService_Settings_SocialXpPerSession>
   <RoomService_Settings_RejectionCooldownHours>Rejection cooldown (hours): {0}</RoomService_Settings_RejectionCooldownHours>
+  <RoomService_Settings_SuccessCooldownHours>Cooldown after a successful visit (hours): {0}</RoomService_Settings_SuccessCooldownHours>
   <RoomService_Settings_AffectsFactionGoodwill>Successful visits improve faction goodwill</RoomService_Settings_AffectsFactionGoodwill>
   <RoomService_Settings_PersonalityReactions>Personality affects reactions (traits, growing experience, forced-slave reactions)</RoomService_Settings_PersonalityReactions>
   <RoomService_Settings_SlaveWillReduction>Slave will reduction per session: {0}</RoomService_Settings_SlaveWillReduction>

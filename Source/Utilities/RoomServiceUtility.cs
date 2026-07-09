@@ -184,7 +184,12 @@ public static class RoomServiceUtility
         if (Rand.Value <= chance)
         {
             Succeed(pawn, guest, bed);
-            comp?.ClearCooldown(guest);
+            // A successful session used to clear the cooldown entirely, meaning the same
+            // colonist (if still idle with Companionship work enabled) could immediately
+            // re-solicit and succeed on the same guest again - repeatedly, forever, with the
+            // guest's bed ownership getting yanked around each cycle. Give successes their own
+            // (shorter than rejection, but nonzero) cooldown instead.
+            comp?.ApplyCooldown(guest, Mathf.RoundToInt(GenDate.TicksPerHour * ModSettings_RoomService.successCooldownHours));
         }
         else
         {

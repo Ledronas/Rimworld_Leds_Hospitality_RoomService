@@ -28,6 +28,7 @@ public class ModSettings_RoomService : ModSettings
     public static float bedValueWeight = 0.1f;
     public static float socialXpPerSession = 50f;
     public static float rejectionCooldownHours = 1f;
+    public static float successCooldownHours = 4f;
     public static bool affectsFactionGoodwill = true;
     public static bool personalityReactions = true;
     public static float slaveWillReduction = 1f;
@@ -63,6 +64,7 @@ public class ModSettings_RoomService : ModSettings
         Scribe_Values.Look(ref bedValueWeight, "bedValueWeight", 0.1f);
         Scribe_Values.Look(ref socialXpPerSession, "socialXpPerSession", 50f);
         Scribe_Values.Look(ref rejectionCooldownHours, "rejectionCooldownHours", 1f);
+        Scribe_Values.Look(ref successCooldownHours, "successCooldownHours", 4f);
         Scribe_Values.Look(ref affectsFactionGoodwill, "affectsFactionGoodwill", true);
         Scribe_Values.Look(ref personalityReactions, "personalityReactions", true);
         Scribe_Values.Look(ref slaveWillReduction, "slaveWillReduction", 1f);
@@ -151,6 +153,9 @@ public class ModSettings_RoomService : ModSettings
 
             listing.Label("RoomService_Settings_RejectionCooldownHours".Translate(rejectionCooldownHours.ToString("F1")));
             rejectionCooldownHours = listing.Slider(rejectionCooldownHours, 0f, 12f);
+
+            listing.Label("RoomService_Settings_SuccessCooldownHours".Translate(successCooldownHours.ToString("F1")));
+            successCooldownHours = listing.Slider(successCooldownHours, 0f, 24f);
 
             listing.CheckboxLabeled("RoomService_Settings_AffectsFactionGoodwill".Translate(), ref affectsFactionGoodwill);
             listing.CheckboxLabeled("RoomService_Settings_PersonalityReactions".Translate(), ref personalityReactions);
