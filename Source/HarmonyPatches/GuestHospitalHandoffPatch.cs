@@ -12,7 +12,6 @@ namespace HospitalityRoomService.HarmonyPatches;
 /// Patches both AddHediff overloads since callers use either depending on whether they already
 /// have a constructed Hediff instance or just a HediffDef.
 /// </summary>
-[HarmonyPatch(typeof(Pawn_HealthTracker))]
 public static class GuestHospitalHandoffPatch
 {
     private static void TryHandoff(Hediff hediff)
@@ -27,14 +26,14 @@ public static class GuestHospitalHandoffPatch
         OptionalHospital.TryHandoff(pawn, hediff);
     }
 
-    [HarmonyPatch(nameof(Pawn_HealthTracker.AddHediff), typeof(HediffDef), typeof(BodyPartRecord), typeof(DamageInfo?), typeof(DamageWorker.DamageResult))]
+    [HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.AddHediff), typeof(HediffDef), typeof(BodyPartRecord), typeof(DamageInfo?), typeof(DamageWorker.DamageResult))]
     private static class AddHediffFromDefPatch
     {
         [HarmonyPostfix]
         public static void Postfix(Hediff __result) => TryHandoff(__result);
     }
 
-    [HarmonyPatch(nameof(Pawn_HealthTracker.AddHediff), typeof(Hediff), typeof(BodyPartRecord), typeof(DamageInfo?), typeof(DamageWorker.DamageResult))]
+    [HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.AddHediff), typeof(Hediff), typeof(BodyPartRecord), typeof(DamageInfo?), typeof(DamageWorker.DamageResult))]
     private static class AddHediffInstancePatch
     {
         [HarmonyPostfix]
