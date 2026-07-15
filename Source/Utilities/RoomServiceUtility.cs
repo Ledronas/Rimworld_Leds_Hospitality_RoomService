@@ -246,14 +246,20 @@ public static class RoomServiceUtility
 
         // Restore whatever bed the guest had before (e.g. a Hospitality guest bed they already
         // paid rent for) - otherwise the same vanilla "one owned bed at a time" reshuffle above
-        // leaves them without one, and Hospitality makes them buy it all over again. Re-claim it
-        // through Building_GuestBed's own path (not just vanilla ownership) so its rental stats
-        // and assignment tracking stay consistent, matching however they originally claimed it.
+        // leaves them without one, and Hospitality makes them buy it all over again. Go through
+        // CompGuest.ClaimBed (not just Building_GuestBed.TryClaimBed, which only restores vanilla
+        // ownership) - Hospitality's own "can they afford a bed" mood check reads CompGuest.bed
+        // separately from vanilla ownership, and TryClaimBed alone never touches it, so a guest
+        // could end up correctly re-owning their bed in vanilla terms while Hospitality still
+        // thought they had none and dinged their mood for being unable to afford one.
         if (guestPreviousBed != null && guestPreviousBed.Spawned && guest.ownership?.OwnedBed != guestPreviousBed)
         {
             if (guestPreviousBed is Hospitality.Building_GuestBed guestBed)
             {
-                guestBed.TryClaimBed(guest);
+                // CompUtility.CompGuest(pawn) is the usual accessor, but that helper class is
+                // internal to Hospitality's own assembly - fetch the (public) comp type directly
+                // via vanilla's generic accessor instead.
+                guest.TryGetComp<Hospitality.CompGuest>()?.ClaimBed(guestBed);
             }
             else
             {
